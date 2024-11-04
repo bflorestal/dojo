@@ -1,3 +1,8 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+catalog:
+  eslint: ^9.14.0
+  prettier: ^3.3.3
+  typescript: ^5.6.3
