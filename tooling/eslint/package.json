@@ -25,6 +25,7 @@
     "@dojo/prettier-config": "workspace:*",
     "@dojo/tsconfig": "workspace:*",
     "@types/eslint__js": "8.42.3",
+    "@types/node": "^22.9.0",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
