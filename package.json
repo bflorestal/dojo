@@ -1,6 +1,11 @@
 {
   "name": "dojo",
   "private": true,
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=20.16.0",
+    "pnpm": "^9.6.0"
+  },
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
@@ -9,13 +14,9 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@turbo/gen": "^2.2.3",
     "prettier": "catalog:",
     "turbo": "^2.2.3",
     "typescript": "catalog:"
-  },
-  "packageManager": "pnpm@9.12.3",
-  "engines": {
-    "node": ">=20.16.0",
-    "pnpm": "^9.6.0"
   }
 }
