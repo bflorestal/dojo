@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia";
 
 import { eq } from "@dojo/db";
 import { db } from "@dojo/db/client";
-import { users } from "@dojo/db/schema";
+import { InsertUserSchema, users } from "@dojo/db/schema";
 
 const routes = new Elysia({ detail: { tags: ["App"] }, prefix: "/users" })
   .get("/", () => {
@@ -16,6 +16,20 @@ const routes = new Elysia({ detail: { tags: ["App"] }, prefix: "/users" })
       },
     });
   })
+  .post(
+    "/",
+    ({ body }) => {
+      return db.insert(users).values(body).returning({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        createdAt: users.createdAt,
+      });
+    },
+    {
+      body: t.Omit(InsertUserSchema, ["id", "createdAt", "updatedAt"]),
+    },
+  )
   .guard({
     params: t.Object({
       id: t.String({ format: "uuid" }),
