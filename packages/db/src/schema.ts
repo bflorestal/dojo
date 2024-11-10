@@ -5,8 +5,8 @@ import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 
 export const users = pgTable("users", {
   id: uuid().defaultRandom().primaryKey(),
-  name: varchar("name", { length: 32 }).notNull(),
-  email: text("email").notNull(),
+  name: varchar("name", { length: 32 }).notNull().unique(),
+  email: text("email").notNull().unique(),
   password: varchar("password", { length: 32 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at", {
