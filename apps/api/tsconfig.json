@@ -2,9 +2,6 @@
   "extends": "@dojo/tsconfig/base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"]
-    },
     "module": "esnext",
     "types": ["bun-types"]
   },
