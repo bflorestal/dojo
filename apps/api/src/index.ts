@@ -5,7 +5,13 @@ import { Elysia } from "elysia";
 import routes from "./routes";
 
 const app = new Elysia()
-  .use(cors())
+  .use(
+    cors({
+      origin: "*",
+      credentials: true,
+      allowedHeaders: ["Content-Type", "Authorization"],
+    }),
+  )
   .use(
     swagger({
       path: "/api/docs",
