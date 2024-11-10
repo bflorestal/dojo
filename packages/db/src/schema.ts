@@ -1,13 +1,6 @@
 import { Type } from "@sinclair/typebox";
 import { relations, sql } from "drizzle-orm";
-import {
-  integer,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 
 export const users = pgTable("users", {
@@ -37,7 +30,7 @@ export const UsersRelations = relations(users, ({ many }) => ({
 export const posts = pgTable("posts", {
   id: uuid().defaultRandom().primaryKey(),
   content: text("content").notNull(),
-  authorId: integer("author_id").notNull(),
+  authorId: uuid("author_id").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
