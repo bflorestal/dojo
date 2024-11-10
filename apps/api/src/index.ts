@@ -28,6 +28,11 @@ const app = new Elysia()
       params,
     });
   })
+  .onError(({ error, code }) => {
+    if (code === "NOT_FOUND") return;
+
+    console.error(error);
+  })
   .use(routes)
   .listen(3000);
 
