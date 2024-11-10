@@ -1,0 +1,32 @@
+{
+  "name": "@dojo/api",
+  "version": "1.0.50",
+  "type": "module",
+  "module": "src/index.js",
+  "scripts": {
+    "build": "bun build src/index.ts --target bun --outdir ./dist",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "bun --env-file=../../.env --watch src/index.ts",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "start": "NODE_ENV=production bun dist/index.js",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@dojo/db": "workspace:*",
+    "@elysiajs/cors": "^1.1.1",
+    "@elysiajs/swagger": "^1.1.5",
+    "elysia": "^1.1.24"
+  },
+  "devDependencies": {
+    "@dojo/eslint-config": "workspace:*",
+    "@dojo/prettier-config": "workspace:*",
+    "@dojo/tsconfig": "workspace:*",
+    "bun-types": "latest",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@dojo/prettier-config"
+}
