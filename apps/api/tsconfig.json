@@ -1,0 +1,10 @@
+{
+  "extends": "@dojo/tsconfig/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "esnext",
+    "types": ["bun-types"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
