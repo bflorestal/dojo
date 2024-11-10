@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 
-import postRoutes from "./api/posts.routes";
-import userRoutes from "./api/users.routes";
+import postRoutes from "./posts.routes";
+import userRoutes from "./users.routes";
 
 const routes = new Elysia({ prefix: "/api" }).use(userRoutes).use(postRoutes);
 
