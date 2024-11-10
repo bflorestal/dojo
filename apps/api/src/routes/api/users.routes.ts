@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 
 import { eq } from "@dojo/db";
 import { db } from "@dojo/db/client";
@@ -15,6 +15,11 @@ const routes = new Elysia({ detail: { tags: ["App"] }, prefix: "/users" })
         updatedAt: true,
       },
     });
+  })
+  .guard({
+    params: t.Object({
+      id: t.String({ format: "uuid" }),
+    }),
   })
   .get("/:id", ({ params }) => {
     return db.query.users.findFirst({

@@ -22,6 +22,12 @@ const app = new Elysia()
   .get("/", () => "Hello Elysia", {
     detail: { tags: ["App"] },
   })
+  .onTransform(function log({ body, params, path, request: { method } }) {
+    console.log(`${method} ${path}`, {
+      body,
+      params,
+    });
+  })
   .use(routes)
   .listen(3000);
 
