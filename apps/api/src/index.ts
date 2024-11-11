@@ -7,7 +7,7 @@ import routes from "./routes";
 const app = new Elysia()
   .use(
     cors({
-      origin: "*",
+      origin: ["http://localhost:4173", "http://localhost:5173"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
     }),
