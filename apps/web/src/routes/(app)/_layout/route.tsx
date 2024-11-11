@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import {
   Bell,
@@ -9,6 +10,8 @@ import {
   Settings,
   User,
 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -39,9 +42,27 @@ export const Route = createFileRoute("/(app)/_layout")({
   component: LayoutComponent,
 });
 
+const NewPostSchema = z.object({
+  content: z.string().min(1),
+});
+type NewPost = z.infer<typeof NewPostSchema>;
+
 function LayoutComponent() {
   const [isNewPostModalOpen, setIsNewPostModalOpen] = useState(false);
-  const [postContent, setPostContent] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<NewPost>({ resolver: zodResolver(NewPostSchema) });
+
+  function onSubmit(data: { content: string }) {
+    console.dir(data);
+
+    reset();
+    setIsNewPostModalOpen(false);
+  }
 
   return (
     <SidebarProvider>
@@ -107,43 +128,50 @@ function LayoutComponent() {
                     </SidebarMenuButton>
                   </DialogTrigger>
                   <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Create New Post</DialogTitle>
-                      <DialogDescription>
-                        Share your thoughts with the world
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="post-content" className="col-span-4">
-                          Content
-                        </Label>
-                        <div className="col-span-4 space-y-2">
-                          <Textarea
-                            id="post-content"
-                            placeholder="What's on your mind?"
-                            className="resize-none"
-                            rows={4}
-                            maxLength={280}
-                            value={postContent}
-                            onChange={(e) => setPostContent(e.target.value)}
-                          />
-                          <p className="text-right text-sm text-muted-foreground">
-                            {280 - postContent.length} characters remaining
-                          </p>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <DialogHeader>
+                        <DialogTitle>Create New Post</DialogTitle>
+                        <DialogDescription>
+                          Share your thoughts with the world
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="post-content" className="col-span-4">
+                            Content
+                          </Label>
+                          <div className="col-span-4 space-y-2">
+                            <Textarea
+                              id="post-content"
+                              placeholder="What's on your mind?"
+                              className="resize-none"
+                              rows={4}
+                              minLength={1}
+                              maxLength={255}
+                              required
+                              disabled={isSubmitting}
+                              {...register("content", {
+                                required: "Content is required",
+                                minLength: {
+                                  value: 1,
+                                  message: "Content must not be empty",
+                                },
+                              })}
+                            />
+                            {errors.content && (
+                              <p className="text-sm text-red-500">
+                                {errors.content.message}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <DialogFooter>
-                      <Button
-                        onClick={() => {
-                          setPostContent("");
-                          setIsNewPostModalOpen(false);
-                        }}
-                      >
-                        Post
-                      </Button>
-                    </DialogFooter>
+                      <DialogFooter>
+                        <Button type="submit" disabled={isSubmitting}>
+                          Post
+                        </Button>
+                      </DialogFooter>
+                    </form>
                   </DialogContent>
                 </Dialog>
               </SidebarMenuItem>

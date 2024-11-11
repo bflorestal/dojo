@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -20,11 +21,23 @@ function randomNumber() {
 
 export function PostCard({ post }: { post: Post }) {
   return (
-    <Card key={post.id}>
+    <Card className="relative">
       <CardHeader>
         <div className="flex items-center space-x-2">
+          {/*
+            <Link to={`/profile/${post.author.name}`} className="relative">
+              <Avatar>
+                <AvatarImage alt={post.author} src={post.avatar} />
+                <AvatarFallback>{post.author.split(' ').map((n) => n[0]).join('')}</AvatarFallback>
+              </Avatar>
+            </Link>
+          */}
           <div>
-            <CardTitle>{post.author.name}</CardTitle>
+            <CardTitle>
+              <Link to={`/profile/${post.author.name}`}>
+                {post.author.name}
+              </Link>
+            </CardTitle>
             <CardDescription>{dayjs(post.createdAt).fromNow()}</CardDescription>
           </div>
         </div>
