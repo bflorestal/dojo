@@ -9,9 +9,7 @@
     "dev": "bun --env-file=../../.env --watch src/index.ts",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
-    "start": "NODE_ENV=production bun dist/index.js",
-    "test": "bun test",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "start": "NODE_ENV=production bun dist/index.js"
   },
   "dependencies": {
     "@dojo/db": "workspace:*",
