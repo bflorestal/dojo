@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia";
 
 import { eq } from "@dojo/db";
 import { db } from "@dojo/db/client";
-import { posts } from "@dojo/db/schema";
+import { InsertPostSchema, posts } from "@dojo/db/schema";
 
 const routes = new Elysia({ detail: { tags: ["App"] }, prefix: "/posts" })
   .get("/", () => {
@@ -10,11 +10,25 @@ const routes = new Elysia({ detail: { tags: ["App"] }, prefix: "/posts" })
       columns: {
         id: true,
         content: true,
-        authorId: true,
         createdAt: true,
       },
+      with: { author: { columns: { id: true, name: true } } },
     });
   })
+  .post(
+    "/",
+    ({ body }) => {
+      return db.insert(posts).values(body).returning({
+        id: posts.id,
+        content: posts.content,
+        authorId: posts.authorId,
+        createdAt: posts.createdAt,
+      });
+    },
+    {
+      body: t.Omit(InsertPostSchema, ["id", "createdAt"]),
+    },
+  )
   .guard({
     params: t.Object({
       id: t.String({ format: "uuid" }),
@@ -26,9 +40,9 @@ const routes = new Elysia({ detail: { tags: ["App"] }, prefix: "/posts" })
       columns: {
         id: true,
         content: true,
-        authorId: true,
         createdAt: true,
       },
+      with: { author: { columns: { id: true, name: true } } },
     });
   })
   .delete("/:id", ({ params }) => {

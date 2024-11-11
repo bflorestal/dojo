@@ -14,6 +14,7 @@ const routes = new Elysia({ detail: { tags: ["App"] }, prefix: "/users" })
         createdAt: true,
         updatedAt: true,
       },
+      with: { posts: true },
     });
   })
   .post(
@@ -45,6 +46,7 @@ const routes = new Elysia({ detail: { tags: ["App"] }, prefix: "/users" })
         createdAt: true,
         updatedAt: true,
       },
+      with: { posts: true },
     });
   })
   .delete("/:id", ({ params }) => {
