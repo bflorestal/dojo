@@ -1,3 +1,6 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
 import type { Post } from "~/lib/validations/posts";
 import { Button } from "~/components/ui/button";
 import {
@@ -8,6 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+
+dayjs.extend(relativeTime);
 
 function randomNumber() {
   return Math.floor(Math.random() * 100);
@@ -20,7 +25,7 @@ export function PostCard({ post }: { post: Post }) {
         <div className="flex items-center space-x-2">
           <div>
             <CardTitle>{post.author.name}</CardTitle>
-            <CardDescription>{post.createdAt}</CardDescription>
+            <CardDescription>{dayjs(post.createdAt).fromNow()}</CardDescription>
           </div>
         </div>
       </CardHeader>
